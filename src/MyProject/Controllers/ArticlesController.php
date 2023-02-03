@@ -31,11 +31,11 @@ class ArticlesController
             'article' => $article
         ]);
     }
-    public function edit(int $articleId) : void
+    public function edit(int $articleId): void
     {
         /** @var Article $article */
         $article = Article::getById($articleId);
-    
+
         if ($article === null) {
             $this->view->renderHtml('errors/404.php', [], 404);
             return;

@@ -25,14 +25,14 @@ class MainController
         $articles = Article::findAll();
         $this->view->renderHtml('main/main.php', ['articles' => $articles]);
     }
-    
+
     /* далее - опционально */
     public function sayHello(string $name)
     {
         $this->view->renderHtml('main/hello.php', ['name' => $name]);
     }
 
-    public function sayBye(string $name) 
+    public function sayBye(string $name)
     {
         echo 'Пока, ' . $name;
     }

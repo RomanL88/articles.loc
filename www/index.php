@@ -8,11 +8,11 @@ spl_autoload_register(function (string $className) {
 /**
  * если правила роутинга в .htaccess не сработали
  * то берем данные из параметра route (идёт из .htaccess)
- * */ 
- 
+ * */
+
 $route = $_GET['route'] ?? '';
 
- // подключаем перенаправления
+// подключаем перенаправления
 $routes = require __DIR__ . '/../src/routes.php';
 
 $isRouteFound = false;
@@ -24,7 +24,7 @@ foreach ($routes as $pattern => $controllerAndAction) {
 
     /* как нашли - прерываем цикл */
     if (!empty($matches)) {
-        
+
         $isRouteFound = true;
         break;
 
@@ -40,7 +40,7 @@ if (!$isRouteFound) {
  *(полный путь ни к чему)
  */
 
-unset($matches[0]);	
+unset($matches[0]);
 
 $controllerName = $controllerAndAction[0];
 $actionName = $controllerAndAction[1];

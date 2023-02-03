@@ -21,18 +21,18 @@ class View
         $buffer = ob_get_contents();
         ob_get_clean();
 
-        
+
         /* дописать исключения (ошибки) */
         /* $error = "В шаблоне была ошибка!";
         
         if (empty($error)) {
-            echo $buffer;
-        } else {
-            echo $error;
-        } */
-        
         echo $buffer;
-        
+        } else {
+        echo $error;
+        } */
+
+        echo $buffer;
+
     }
 
 }

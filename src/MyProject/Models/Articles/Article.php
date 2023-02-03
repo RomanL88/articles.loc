@@ -31,7 +31,7 @@ class Article extends ActiveRecordEntity
      * @param string $name
      * @return string
      */
-    public function setName(string $name) : void 
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -44,16 +44,16 @@ class Article extends ActiveRecordEntity
     {
         return $this->text;
     }
-    
+
     /**
      * @param string $text
      * @return string
      */
-    public function setText(string $text) : void 
+    public function setText(string $text): void
     {
         $this->text = $text;
     }
-    
+
     /**
      * @return int
      */
@@ -62,7 +62,7 @@ class Article extends ActiveRecordEntity
         return User::getById($this->authorId);
     }
 
-    protected static function getTableName() : string
+    protected static function getTableName(): string
     {
         return 'articles';
     }
