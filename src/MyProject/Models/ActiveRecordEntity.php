@@ -83,28 +83,28 @@ abstract class ActiveRecordEntity
 
 private function insert(array $mappedProperies) : void
 {
+    
         $filteredProperties = array_filter($mappedProperies);
 
         $columns = [];
-        $paramsNames = [];
-        $params2values = [];
         foreach ($filteredProperties as $columnName => $value) {
             $columns[] = '`' . $columnName . '`';
-            $paramName[] = '`' . $columnName;
+            $paramName = ':' . $columnName;
             $paramsNames[] = $paramName;
-            $params2values[$paramName] = $value;
+            $param2values[$paramName] = $value;
         }
 
-        $columnViaSemicolon = implode(', ', $columns);
+        $columnsViaSemicolon = implode(', ', $columns);
         $paramsNamesViaSemicolon = implode(', ', $paramsNames);
 
-        $sql = 'INSERT INTO ' . static::getTableName() . '( ' . $columnViaSemicolon . ') VALUES (' . $paramsNamesViaSemicolon . ');';
+        $sql = 'INSERT INTO ' . static::getTableName() . ' (' . $columnsViaSemicolon . ') VALUES ( ' . $paramsNamesViaSemicolon . ');';
 
         $db = Db::getInstance();
-        $db->query($sql, $params2values, static::class);
-        $this->id = $db->getLastInsertId();
+        $db->query($sql, $param2values, static::class);
+        $this->id = $db->getLastInserId();
         $this->refresh();
-    }
+    
+}
 
     private function refresh() : void 
     {
@@ -119,7 +119,6 @@ private function insert(array $mappedProperies) : void
         }
     }        
 
-}
 
 
 
