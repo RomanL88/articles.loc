@@ -15,4 +15,7 @@ $sumReflector = new ReflectionFunction('sum');
 
 echo "<pre>" . $sumReflector->getDocComment() . "</pre>";
 
+
+var_dump($sumReflector);
+
 ?>

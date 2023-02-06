@@ -45,8 +45,6 @@ class ArticlesController
         $article->setText('Новый текст статьи');
 
 
-        echo "<pre class='myQWe'>";
         $article->save();
-        echo "</pre>";
     }
 }

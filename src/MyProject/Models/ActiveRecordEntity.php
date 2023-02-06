@@ -81,41 +81,45 @@ abstract class ActiveRecordEntity
         $db->query($sql, $params2values, static::class);
     }
 
-    private function insert(array $mappedProperies): void
-    {
-        //здесь мы создаём новую запись в базе
+private function insert(array $mappedProperies) : void
+{
+        $filteredProperties = array_filter($mappedProperies);
 
-        /**
-         * взять параметры для создания записи таблицы `articles`
-         * сформировать запрос
-         * выполнить запрос
-         */
-
-        $columns2params = [];
+        $columns = [];
+        $paramsNames = [];
         $params2values = [];
-        $index = 1;
-        foreach ($mappedProperies as $column => $value) {
-            $param = ':param' . $index; // param1
-            $columns2params[] = $column . ' = ' . $param; // column1 = :param1
-            $params2values[$param] = $value; // [:param1 => value1]
-            $index++;
+        foreach ($filteredProperties as $columnName => $value) {
+            $columns[] = '`' . $columnName . '`';
+            $paramName[] = '`' . $columnName;
+            $paramsNames[] = $paramName;
+            $params2values[$paramName] = $value;
         }
-        echo "<pre>";
-        var_dump($params2values);
-        echo "</pre>";
-        // шаблон запроса
-        /**
-         * INSERT INTO `articles` VALUES 
-         * `author_id`=1,                   // узнать ID автора 
-         * `name`='Новое название статьи',
-         * `text`='Новый текст статьи',
-         *   
-         */
 
+        $columnViaSemicolon = implode(', ', $columns);
+        $paramsNamesViaSemicolon = implode(', ', $paramsNames);
 
+        $sql = 'INSERT INTO ' . static::getTableName() . '( ' . $columnViaSemicolon . ') VALUES (' . $paramsNamesViaSemicolon . ');';
 
-
+        $db = Db::getInstance();
+        $db->query($sql, $params2values, static::class);
+        $this->id = $db->getLastInsertId();
+        $this->refresh();
     }
+
+    private function refresh() : void 
+    {
+        $objectFromDb = static::getById($this->id);
+        $reflector = new \ReflectionObject($objectFromDb);
+        $properties = $reflector->getProperties();
+
+        foreach ($properties as $property) {
+            $property->setAccessible(true);
+            $propertyName = $property->getName();
+            $this->$propertyName = $property->getValue($objectFromDb);
+        }
+    }        
+
+}
 
 
 
