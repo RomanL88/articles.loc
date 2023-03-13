@@ -4,7 +4,7 @@
 
 foreach ($articles as $article) { ?>
 
-    <h2><a href="/www/articles/<?= $article->getId(); ?>"><?= $article->getName(); ?></a></h2>
+    <h2><a href="/articles/<?= $article->getId(); ?>"><?= $article->getName(); ?></a></h2>
     <p>
         <?= $article->getText() ?>
     </p>
