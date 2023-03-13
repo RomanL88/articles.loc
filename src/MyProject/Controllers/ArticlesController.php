@@ -59,9 +59,27 @@ class ArticlesController
         $article->setText('Новый текст статьи');
 
         $article->save();
-        
-        echo "<pre>";
+
+        echo '<pre>';
         var_dump($article);
-        echo "</pre>";
+        echo '</pre>';
+    }
+
+    public function delete($articleId): void
+    {
+        $article = Article::getById($articleId);
+
+        if ($article === null) {
+            $this->view->renderHtml('errors/notObject.php', [], 404);
+            return;
+        }
+        echo 'Статья удалена!<br>';
+        echo '<pre>';
+        var_dump($article);
+        echo '</pre>';
+
+        $article->delete();
     }
 }
+
+?>

@@ -47,7 +47,7 @@ abstract class ActiveRecordEntity
         $entities = $db->query(
             'SELECT * FROM `' . static::getTableName() . '` WHERE id=:id;',
             [':id' => $id],
-                static::class
+            static::class
         );
         return $entities ? $entities[0] : null;
     }
@@ -145,9 +145,15 @@ private function insert(array $mappedProperies) : void
         return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $source));
     }
 
+    public function delete() : void
+    {
+        $db = Db::getInstance();
+        $db->query(
+            'DELETE FROM`' . static::getTableName() . '` WHERE id = :id', [':id'=>$this->id]
+        );
+        $this->id = null;
+    }
 
 
     abstract protected static function getTableName(): string;
 }
-
-?>
