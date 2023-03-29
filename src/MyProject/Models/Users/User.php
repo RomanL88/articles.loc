@@ -42,7 +42,7 @@ class User extends ActiveRecordEntity
         return 'users';
     }
 
-    public static function signUp(array $userData)
+    public static function signUp(array $userData) : User
     {
         if (empty($userData['nickname'])) {
             throw new InvalidArgumentException('Не передан nickname');
@@ -77,6 +77,11 @@ class User extends ActiveRecordEntity
 
         return $user;
 
+    }
+    public function activate(): void
+    {
+        $this->isConfirmed = true;
+        $this->save();
     }
 
 }
