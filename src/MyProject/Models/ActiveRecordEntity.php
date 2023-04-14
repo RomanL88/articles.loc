@@ -1,4 +1,5 @@
 <?
+
 namespace MyProject\Models;
 
 use MyProject\Services\Db;
@@ -60,7 +61,6 @@ abstract class ActiveRecordEntity
         } else {
             $this->insert($mappedProperies);
         }
-
     }
     private function update(array $mappedProperies): void
     {
@@ -81,9 +81,9 @@ abstract class ActiveRecordEntity
         $db->query($sql, $params2values, static::class);
     }
 
-private function insert(array $mappedProperies) : void
-{
-    
+    private function insert(array $mappedProperies): void
+    {
+
         $filteredProperties = array_filter($mappedProperies);
 
         $columns = [];
@@ -103,10 +103,9 @@ private function insert(array $mappedProperies) : void
         $db->query($sql, $param2values, static::class);
         $this->id = $db->getLastInserId();
         $this->refresh();
-    
-}
+    }
 
-    private function refresh() : void 
+    private function refresh(): void
     {
         $objectFromDb = static::getById($this->id);
         $reflector = new \ReflectionObject($objectFromDb);
@@ -117,7 +116,7 @@ private function insert(array $mappedProperies) : void
             $propertyName = $property->getName();
             $this->$propertyName = $property->getValue($objectFromDb);
         }
-    }        
+    }
 
 
 
@@ -145,17 +144,18 @@ private function insert(array $mappedProperies) : void
         return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $source));
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $db = Db::getInstance();
         $db->query(
-            'DELETE FROM`' . static::getTableName() . '` WHERE id = :id', [':id'=>$this->id]
+            'DELETE FROM`' . static::getTableName() . '` WHERE id = :id',
+            [':id' => $this->id]
         );
         $this->id = null;
     }
 
 
-    public  static function findOneByColumn(string $columnName, $value) :?self
+    public static function findOneByColumn(string $columnName, $value): ?self
     {
         $db = Db::getInstance();
         $result = $db->query(
