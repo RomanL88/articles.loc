@@ -145,4 +145,10 @@ class User extends ActiveRecordEntity
     {
         $this->authToken = sha1(random_bytes(100)) . sha1(random_bytes(100));
     }
+
+    public static function logout()
+    {
+        setcookie('token', null, -1, '/');
+    }
+
 }

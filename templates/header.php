@@ -17,7 +17,17 @@
         </tr>
         <tr>
             <td colspan="2" style="text-align: right;">
-                <?= !empty($user) ? 'Привет, ' . $user->getNickname() : 'Войдите на сайт'; ?>
+                <?php
+                if (empty($user)) { ?>
+
+                    <a href="/users/login">Войти</a> | <a href="/users/register">Зарегистрироваться</a>
+
+                <? } else { ?>
+
+                    Привет, <?= $user->getNickname() ?> | <a href="/users/logout">Выйти</a>
+
+                <? } ?>
+                <pre><? var_dump($_COOKIE); ?></pre>
             </td>
         </tr>
         <tr>
