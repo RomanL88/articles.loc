@@ -63,6 +63,7 @@ class UsersController extends AbstractController
     public function logout()
     {
         User::logout();
-        $this->view->renderHtml('users/logout.php');
+        header('Location: /');
+        exit();
     }
 }

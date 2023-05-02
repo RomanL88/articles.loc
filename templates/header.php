@@ -27,7 +27,6 @@
                     Привет, <?= $user->getNickname() ?> | <a href="/users/logout">Выйти</a>
 
                 <? } ?>
-                <pre><? var_dump($_COOKIE); ?></pre>
             </td>
         </tr>
         <tr>
