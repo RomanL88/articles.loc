@@ -2,7 +2,8 @@
 
 namespace MyProject\Controllers;
 
-use InvalidArgumentException;
+use MyProject\Exceptions\InvalidArgumentException;
+use MyProject\Exceptions\Forbidden;
 use MyProject\Models\Articles\Article;
 use MyProject\Exceptions\UnauthorizedException;
 
@@ -47,6 +48,11 @@ class ArticlesController extends AbstractController
         if ($this->user === null) {
             throw new UnauthorizedException();
         }
+
+        if (!$this->user->isAdmin()) {
+            throw new Forbidden('Для добавления статьи нужно обладать правами администратора');
+        }
+
         if (!empty($_POST)) {
             try {
                 $article = Article::createFromArray($_POST, $this->user);
